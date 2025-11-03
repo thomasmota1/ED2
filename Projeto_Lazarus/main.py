@@ -6,9 +6,7 @@ from fases.fase01_busca.busca_sequencial import desafio_sequencial
 from fases.fase01_busca.busca_binaria import desafio_binario
 
 if __name__ == "__main__":
-    #intro_lazarus()
-    #introducao_fase1()
-    #desafio_sequencial()
+    intro_lazarus()
+    introducao_fase1()
     
-    desafio_binario()
 

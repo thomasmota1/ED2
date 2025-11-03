@@ -14,10 +14,6 @@ from fases.fase01_busca.busca_rabinKarp import desafio_rabin_karp
 console = Console()
 
 
-# ============================================================
-# INTRODUÇÃO — A ORDEM RENASCENTE
-# ============================================================
-
 def explorar_catalogos_ordenados():
     """
     Introdução narrativa e contextual dos Catálogos Ordenados.
@@ -45,9 +41,6 @@ def explorar_catalogos_ordenados():
     return "734"
 
 
-# ============================================================
-# VISUALIZAÇÃO DOS CATÁLOGOS
-# ============================================================
 
 def mostrar_catalogos_interativo(catalogos):
     """
@@ -69,9 +62,6 @@ def mostrar_catalogos_interativo(catalogos):
     console.print(table)
 
 
-# ============================================================
-# ANÁLISE DE EFICIÊNCIA — BUSCA BINÁRIA
-# ============================================================
 
 def analise_eficiencia_binaria(passos, total, tempo, sucesso):
     eficiencia = passos / total
@@ -96,15 +86,9 @@ def analise_eficiencia_binaria(passos, total, tempo, sucesso):
     console.print(f"[dim]• Complexidade teórica: O(log n)[/dim]")
 
 
-# ============================================================
-# IMPLEMENTAÇÃO DA BUSCA BINÁRIA
-# ============================================================
 
 def busca_binaria_interativa(catalogos, alvo):
-    """
-    Implementa a busca binária com visualização dos passos e falas narrativas.
-    Retorna (encontrado, passos, tempo).
-    """
+   
     console.print(f"\n[bold cyan]🔍 Iniciando rastreamento binário — alvo: [magenta]{alvo}[/magenta][/bold cyan]")
 
     esquerda, direita = 0, len(catalogos) - 1
@@ -139,14 +123,8 @@ def busca_binaria_interativa(catalogos, alvo):
     return False, passos, tempo_total
 
 
-# ============================================================
-# EXECUÇÃO PRINCIPAL — DESAFIO BINÁRIO
-# ============================================================
-
 def desafio_binario():
-    """
-    Execução completa da Fase 2 — narrativa, visualização e métrica técnica integradas.
-    """
+    
     limpar_tela()
     codigo_alvo = explorar_catalogos_ordenados()
     esperar_enter()
@@ -200,10 +178,10 @@ def desafio_binario():
                 default=codigo_alvo
             ).ask()
 
-        # --- SAÍDA OPCIONAL ---
+        
         if resposta is None or resposta.lower() in ["sair", "exit", "quit"]:
             narrar("Kaelen: “Encerrar o protocolo. A simetria pode esperar outro ciclo.”", 0.04)
-            return  # sai da função de forma limpa
+            return  
 
         try:
             codigo_busca = int(resposta)

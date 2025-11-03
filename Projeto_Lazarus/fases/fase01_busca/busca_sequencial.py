@@ -1,6 +1,3 @@
-# fases/fase1/fase1_sequencial.py
-# Fase 1 — A Ressonância dos Fragmentos Perdidos
-# Núcleo com humor dinâmico e falas aleatórias, análise completa de complexidade
 
 import random
 import time
@@ -14,14 +11,9 @@ console = Console()
 estado_nucleo = 0  # 0 = calmo, 1 = cansado, 2 = irritado, 3 = instável
 
 
-# ============================================================
-# ANIMAÇÃO — Pulso de Luz Ressonante com Falas Dinâmicas
-# ============================================================
 
 def pulso_de_luz():
-    """
-    Anima o pulso do núcleo com falas e humor aleatórios conforme o estado global.
-    """
+   
     global estado_nucleo
 
     respostas = {
@@ -57,20 +49,14 @@ def pulso_de_luz():
             time.sleep(0.12)
     console.print(" " * 20, end="\r")
 
-    # Exibe fala aleatória do estado atual
     fala = random.choice(respostas[estado_nucleo])
     console.print(f"[bold cyan]{fala}[/bold cyan]\n")
     pausa(0.5)
 
 
-# ============================================================
-# PRÓLOGO — Diálogo com o Núcleo Ressonante
-# ============================================================
 
 def dialogo_com_resonador():
-    """
-    Interação com o Núcleo Ressonante — exibe a pista 4_7 com falas aleatórias e humor variável.
-    """
+
     global estado_nucleo
     console.print(Panel.fit(
         "[bold magenta]🔭 Comunicação com o Núcleo Ressonante[/bold magenta]",
@@ -110,15 +96,9 @@ def dialogo_com_resonador():
     return True
 
 
-# ============================================================
-# ALGORITMO DE BUSCA SEQUENCIAL — ESTILO RAFAEL + ANÁLISE
-# ============================================================
 
 def busca_sequencial(fragmentos, alvo):
-    """
-    Busca sequencial narrada com análise técnica e comentários imersivos.
-    Retorna True se o fragmento for encontrado, False caso contrário.
-    """
+
     narrar("Roric: “Iniciando varredura sequencial. Um fragmento por vez…”", 0.04)
     pausa(0.6)
     encontrado = False
@@ -148,14 +128,8 @@ def busca_sequencial(fragmentos, alvo):
     return encontrado
 
 
-# ============================================================
-# FASE PRINCIPAL — NARRATIVA E INTERAÇÃO
-# ============================================================
-
 def desafio_sequencial():
-    """
     
-    """
     limpar_tela()
     console.print(Panel.fit(
         "[bold yellow]🌐 Parte 1 — A Ressonância dos Fragmentos Perdidos[/bold yellow]",
