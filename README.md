@@ -73,11 +73,9 @@ A análise de complexidade é um elemento central da narrativa, explicada ao jog
 #### 2. Busca Binária
 
 * **Complexidade Teórica:** $O(\log n)$ (Logarítmica).
-* **Análise no Código:** A análise é realizada por um método dedicado, `analise_eficiencia_binaria(...)`. Este método é chamado após cada tentativa de busca e exibe métricas explícitas para o jogador:
-    * `Passos:`
-    * `Total de registros:`
-    * `Tempo medido:`
-    * Os personagens então verbalizam a teoria: `fala("Kaelen", "A complexidade é O(log n)...")`
-* **Eficiência Observada:** O contraste com a Busca Sequencial é o ponto principal. O jogador vê em tempo real que, em um conjunto de ~50 itens, o alvo é encontrado em 6-7 passos (logarítmico), em vez de uma média de 25 passos (linear).
+* **Análise no Código:** A análise é realizada por um método dedicado, `analise_eficiencia_binaria(...)`. Este método não apenas exibe as métricas (Passos, Total, Tempo), mas também faz uma **comparação direta** com a Busca Sequencial.
+    * Ele usa a performance da Busca Binária (tempo/passos) para **estimar** o tempo que uma Busca Sequencial ($O(n)$) levaria, através da fórmula: `tempo_sequencial_estimado = tempo * (len(self.catalogos) / passos)`.
+    * Os personagens (Roric, Kaelen) discutem essa estimativa, fornecendo ao jogador uma comparação de tempo concreta (ex: 0.5s vs 5s).
+* **Eficiência Observada:** O contraste é o ponto principal. O jogador vê em tempo real que a busca $O(\log n)$ é encontrada em poucos passos. O código então **calcula e narra** a economia de tempo exponencial em comparação com a busca $O(n)$, provando a teoria na prática.
 
 ---
