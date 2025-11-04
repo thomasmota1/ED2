@@ -1,9 +1,8 @@
-# utils/intro.py
-
 from rich.console import Console
 from rich.panel import Panel
-from utils.core import narrar, pausa, progresso_ritual, limpar_tela, esperar_enter
+from utils.core import narrar, pausa, progresso_ritual, limpar_tela, esperar_enter, fala, pensar
 from time import sleep
+from fases.fase01_busca.busca_sequencial import DesafioSequencial
 
 console = Console()
 
@@ -31,73 +30,30 @@ def intro_lazarus():
         "[bold cyan]Expedição Lazarus — Frota Kepler-9[/bold cyan]\n[dim]Ano 2247 | Sistema de Aetherios[/dim]",
         border_style="bright_cyan"
     ))
-    narrar("Dr. Kaelen Aris (log de voz): “Captamos ecos digitais vindos de Aetherios. Uma biblioteca viva, adormecida sob poeira cósmica.”", 0.025)
-    narrar("“Hoje, ativamos o protocolo Lazarus. Que os ecos despertem...”", 0.025)
-    progresso_ritual("Sincronizando com núcleo de decodificação Zephyriano...", 5, 0.25)
-    esperar_enter()
 
-
-
-
-
-
-
-"""""
-from rich.console import Console
-from rich.panel import Panel
-from utils.core import narrar, pausa, limpar_tela, progresso_ritual, esperar_enter
-from time import sleep
-
-console = Console()
-
-
-def intro_lazarus():
-    limpar_tela()
-    
-    ascii_logo = [
-        "██╗      █████╗ ███████╗ █████╗ ██████╗ ██╗   ██╗███████╗",
-        "██║     ██╔══██╗╚══███╔╝██╔══██╗██╔══██╗██║   ██║██╔════╝",
-        "██║     ███████║  ███╔╝ ███████║██████╔╝██║   ██║███████╗",
-        "██║     ██╔══██║ ███╔╝  ██╔══██║██╔══██╗██║   ██║╚════██║",
-        "███████╗██║  ██║███████╗██║  ██║██║  ██║╚██████╔╝███████║",
-        "╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝"
-    ]
-
-    console.print("\n", style="bold cyan")
-    for linha in ascii_logo:
-        console.print(f"[cyan]{linha}[/cyan]")
-        sleep(0.1)
-    console.print("[dim]Versão 1.0 — Projeto Aetherianos[/dim]\n")
-    pausa(1.5)
-
-    narrar(">>> PROTOCOLO DE REANIMAÇÃO DE DADOS ATIVADO <<<", 0.02)
-    narrar("Iniciando sequência Lazarus.", 0.025)
-    progresso_ritual("Verificando integridade dos bancos de memória...", passos=6, atraso=0.3)
+    fala("Kaelen", "Captamos ecos digitais vindos de Aetherios. Uma biblioteca viva, adormecida sob poeira cósmica.")
+    fala("Kaelen", "Hoje, ativamos o protocolo Lazarus. Que os ecos despertem...")
     pausa(1)
 
-    limpar_tela()
+    narrar("\n[Transmissão de Sistema — Núcleo Zephyriano]", 0.03)
+    narrar("‘A humanidade esqueceu as linguagens que a criaram. Vozes antigas aguardam o guardião que ousar decifrá-las.’", 0.03)
+    narrar("‘Somente aquele que compreender a ordem dentro do caos poderá restaurar a harmonia perdida.’", 0.03)
+    pausa(1)
+
+    console.print("\n[bold yellow]>>> Sequência de inicialização autorizada <<<[/bold yellow]")
+    progresso_ritual("Sincronizando com Núcleo de Decodificação Zephyriano...", 5, 0.25)
+
+    fala("Elara", "O despertar começou... Cada bit pulsante é uma lembrança de eras esquecidas.")
+    fala("Roric", "Preparem-se. Se o Lazarus for bem-sucedido, traremos de volta o que o tempo tentou apagar.")
+    fala("Lin", "Ou libertaremos algo que nunca deveria ter sido reanimado...")
+    pausa(1)
+
     console.print(Panel.fit(
-        "[bold cyan]Expedição Lazarus — Frota Kepler-9[/bold cyan]\n"
-        "[dim]Ano 2247 | Sistema de Aetherios[/dim]",
+        "[bold bright_cyan]PROTOCOLO LAZARUS — ONLINE[/bold bright_cyan]\n[dim]Iniciando reconstrução cognitiva dos Fragmentos Perdidos...[/dim]",
         border_style="bright_cyan"
     ))
-
-    narrar("Dr. Kaelen Aris (log de voz):", 0.03)
-    narrar("“Há dias captamos ecos digitais vindos de Aetherios. "
-           "Parece uma biblioteca viva, adormecida sob camadas de poeira cósmica.”", 0.025)
     pausa(1.2)
 
-    narrar("“Hoje, a Frota Kepler nos autorizou a ativar o Protocolo Lazarus. "
-           "Vamos tentar reanimar o que restou dessa civilização esquecida.”", 0.025)
-
-    progresso_ritual("Sincronizando com núcleo de decodificação Zephyriano...", passos=5, atraso=0.25)
+    narrar("\n[Sistema]: ‘Carregando setorização da Cripta de Dados...’", 0.03)
+    narrar("[Sistema]: ‘Fragmentos corrompidos detectados. Iniciando varredura manual assistida.’", 0.03)
     pausa(1)
-    limpar_tela()
-
-    console.print(Panel(
-        "[bold green]SISTEMA LAZARUS PRONTO[/bold green]\n"
-        "[dim]Pressione ENTER para iniciar a Fase 1: Os Fragmentos Iniciais[/dim]",
-        border_style="green"
-    ))
-    esperar_enter()
-"""""
