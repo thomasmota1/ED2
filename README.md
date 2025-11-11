@@ -2,7 +2,7 @@
 
 Lazarus é um jogo narrativo interativo, executado no terminal, criado para a disciplina de Estrutura de Dados 2. O objetivo é demonstrar a implementação, aplicação e análise de performance de algoritmos clássicos (até o momento: Busca Sequencial e Busca Binária ) em um formato de ficção científica.
 
-## Análise Técnica da Fase 1 (Busca)
+## Análise Técnica do Modulo/Fase 1 (Busca)
 
 Esta seção detalha a arquitetura, implementação e análise de complexidade dos algoritmos de busca utilizados.
 
@@ -10,21 +10,23 @@ Esta seção detalha a arquitetura, implementação e análise de complexidade d
 
 A arquitetura do projeto é construída em um modelo **Orientado a Objetos (OO)**, onde cada desafio de algoritmo é encapsulado em sua própria Classe.
 
-1.  **Ponto de Entrada e Orquestração (`main.py`):**
-    * O `main.py` serve como o **orquestrador central** do projeto. Ele é responsável por:
-        1. Chamar a introdução visual (`intro_lazarus()`).
-        2. **Instanciar** a classe de cada desafio (ex: `desafio_parte1 = DesafioSequencial()`).
-        3. **Executar** o método principal de cada desafio (ex: `desafio_parte1.executar_desafio()`).
+1.  **Menu Principal e Navegação (`main.py`):**
+    * O `main.py` evoluiu de um *script* linear para um **menu interativo** que controla a navegação, utilizando a biblioteca `questionary` para a interface do usuário no terminal.
+    * Ele agora é responsável por gerenciar o ciclo de vida da aplicação (o loop `while True` principal) e apresentar os menus de navegação.
+    * As principais funções do `main.py` são:
+        1.  Apresentar o `menu_principal()` (Jogo Completo, Carregar Fase, Sair).
+        2.  Apresentar o `menu_carregar_fase_parte()` para seleção de pontos de entrada específicos.
+        3.  Delegar a execução com base na escolha do usuário.
 
-2.  **Fluxo de Controle Centralizado:**
-    * O fluxo de controle do jogo é gerenciado inteiramente pelo `main.py`.
-    * Ao contrário de um fluxo "encadeado" (onde a Fase 1 chamaria a Fase 2), o `main.py` espera `desafio_parte1.executar_desafio()` terminar completamente.
-    * Somente após o término da Parte 1, o `main.py` instancia e executa a `desafio_parte2`. Isso torna o `main.py` o roteiro principal do jogo, facilitando a adição, remoção ou reordenação de fases.
+2.  **Fluxo de Controle :**
+    * O `main.py` controla o fluxo através de duas funções de execução principais:
+    * **`executar_fase1_completa()`**: Esta função encapsula o fluxo linear original do jogo (Introdução -> Sequencial -> Binária -> Rabin-Karp) para quem escolhe "Iniciar Jogo Completo".
+    * **`executar_parte_especifica(escolha)`**: Esta função, controlada pelo `menu_carregar_fase_parte()`, permite **isolar e executar** qualquer desafio de forma independente (ex: pular direto para "Fase 1 - Rabin-Karp"). Isso facilita o *debug*, o teste e a rejogabilidade de partes específicas.
 
 3.  **Módulos de Desafio (Classes):**
-    * O núcleo da lógica de cada desafio permanece encapsulado em sua respectiva Classe (ex: `DesafioSequencial` e `DesafioBinario`).
-    * O estado de cada desafio (variáveis, listas de dados, etc.) é gerenciado internamente usando `self` (ex: `self.estado_nucleo`, `self.catalogos`).
-    * A lógica principal de jogo para cada parte é contida em um método padrão `executar_desafio()`.
+    * O núcleo de cada desafio permanece encapsulado em sua respectiva Classe (ex: `DesafioSequencial`, `DesafioBinario`, `FaseRabinTempoReal`).
+    * O `main.py` agora **instancia** essas classes sob demanda, seja em sequência (em `executar_fase1_completa`) ou individualmente (em `executar_parte_especifica`).
+    * O estado de cada desafio (variáveis, listas de dados, etc.) é gerenciado internamente usando `self` dentro de cada classe.
 
 4.  **Pacote de Utilitários (`utils/core.py`):**
     * Este módulo centraliza todas as funções de interação e diálogo. Funções como `fala()`, `pensar()` e `nucleo()` recebem o nome do personagem e o texto, aplicando automaticamente as cores e a formatação corretas.
@@ -59,6 +61,22 @@ A lógica de cada algoritmo é implementada como um método dentro de sua respec
     * **Ponto-chave:** Dentro de `_gerar_catalogos()`, o pré-requisito da busca binária é garantido com a chamada de `self.catalogos.sort()`, que ordena a lista.
     * Após cada tentativa, `self.analise_eficiencia_binaria(...)` é chamada para exibir os resultados.
 
+#### 3. Rabin-Karp (Parte 3)
+
+* **Implementação (`busca_rabin` em `fase3_rabin.py`):**
+    * O algoritmo é implementado na classe `FaseRabinTempoReal` como o método `busca_rabin(self, texto, padrao)`.
+    * Ele utiliza um **rolling hash** (hash deslizante) para encontrar uma sub-string (padrão) dentro de um texto maior.
+    * Ele calcula um hash inicial para o `padrao` (`p_hash`) e para a primeira "janela" do `texto` (`t_hash`).
+    * Em um loop, ele desliza a janela de texto, calculando o novo `t_hash` em tempo constante O(1) (subtraindo o caractere que saiu e adicionando o que entrou).
+    * **Tratamento de Colisão:** Quando `p_hash == t_hash`, o algoritmo realiza uma verificação ingênua (caractere por caractere) para garantir que não é um "falso eco" (uma colisão de hash).
+    * **Normalização:** O método `normalizar(self, texto)` é usado para remover acentos e converter para maiúsculas, tornando a busca *case-insensitive* e *accent-insensitive*.
+
+* **Integração (Método `executar`):**
+    * O método `executar()` gerencia o fluxo da Parte 3, pedindo ao usuário uma "palavra de sintonia".
+    * A cada tentativa, `self.busca_rabin` é chamado.
+    * Se `resultados` for encontrado, o jogo verifica if é a palavra-chave correta (`self.palavra_chave = "RESSONANCIA"`).
+    * Falhas na busca (sem resultados) ou encontrar a palavra errada disparam animações de "instabilidade" (`animacao_instavel`), guiando o jogador.
+
 ### Análise de Complexidade e Eficiência
 
 A análise de complexidade é um elemento central da narrativa, explicada ao jogador pelos personagens.
@@ -76,6 +94,18 @@ A análise de complexidade é um elemento central da narrativa, explicada ao jog
 * **Análise no Código:** A análise é realizada por um método dedicado, `analise_eficiencia_binaria(...)`. Este método não apenas exibe as métricas (Passos, Total, Tempo), mas também faz uma **comparação direta** com a Busca Sequencial.
     * Ele usa a performance da Busca Binária (tempo/passos) para **estimar** o tempo que uma Busca Sequencial ($O(n)$) levaria, através da fórmula: `tempo_sequencial_estimado = tempo * (len(self.catalogos) / passos)`.
     * Os personagens (Roric, Kaelen) discutem essa estimativa, fornecendo ao jogador uma comparação de tempo concreta (ex: 0.5s vs 5s).
-* **Eficiência Observada:** O contraste é o ponto principal. O jogador vê em tempo real que a busca $O(\log n)$ é encontrada em poucos passos. O código então **calcula e narra** a economia de tempo exponencial em comparação com a busca $O(n)$, provando a teoria na prática.
+* **Eficiência Observada:** O contraste é o ponto principal. O jogador vê em tempo real que a busca $O(\log n)$ é encontrada em poucos passos. O código então calcula e narra a economia de tempo exponencial em comparação com a busca $O(n)$, provando a teoria na prática.
 
+#### 3. Rabin-Karp
+
+* **Complexidade Teórica:**
+    * **Melhor Caso/Caso Médio:** $O(n + m)$ (Linear). Onde 'n' é o tamanho do texto e 'm' o do padrão. O pré-processamento do hash é $O(m)$ e a busca é $O(n)$ graças ao *rolling hash*.
+    * **Pior Caso:** $O(n \times m)$. Isso ocorre em um cenário adverso onde ocorrem muitas colisões de hash ("falsos ecos"), forçando o algoritmo a fazer $O(m)$ comparações ingênuas em quase $O(n)$ posições.
+
+* **Análise no Código:** A análise é feita pelo método `analise_complexidade(self, n, m, tempo, sucesso)`.
+    * Os personagens discutem explicitamente os casos:
+        > `fala("Kaelen", "Melhor caso aproximado: O(n + m). Rolamento de hash evita comparações desnecessárias.")`
+        > `fala("Lin", "Pior caso: O(n × m) se houver muitos falsos ecos (colisões).")`
+* **Eficiência Observada:** A narrativa do jogo transforma a complexidade em gameplay. Os "falsos ecos" (palavras encontradas que não são a chave) e as "falhas" (palavras não encontradas) são tratadas como "ruído" e "instabilidade" do Núcleo. O sucesso em $O(n+m)$ é a "sintonia" que estabiliza o sistema. O tempo de execução real (`{tempo:.4f}s`) é sempre exibido, mostrando a velocidade do algoritmo na prática.
+  
 ---
